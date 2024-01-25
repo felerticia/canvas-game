@@ -114,6 +114,7 @@ class Bullet {
       ) {
         this.blasting = true;
         enemy.remove();
+        score++;
         return;
       }
     });
@@ -165,9 +166,11 @@ let bullets = [];
 
 let gameFrame = 0;
 let newEnemyFrequency = 120;
+let score = 0;
 
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillText(score, 100, 100);
 
   gameFrame = Math.floor((gameFrame + 1) % newEnemyFrequency);
   if (gameFrame === 1) {
