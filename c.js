@@ -95,7 +95,20 @@ class Bullet {
     this.image.src = "./bullet.png";
     this.removable = false;
   }
-
+  hit(enemies) {
+    enemies.forEach((enemy) => {
+      if (
+        !(
+          enemy.x + enemy.width < this.x ||
+          enemy.x > this.x + this.width ||
+          enemy.y + enemy.height < this.y ||
+          enemy.y > this.y + this.height
+        )
+      ) {
+        console.log("Hit");
+      }
+    });
+  }
   update() {
     this.xSpeed *= 0.997;
     this.ySpeed *= 1.01;
@@ -117,6 +130,7 @@ class Bullet {
     );
   }
 }
+
 const hero = new Hero();
 let enemies = [];
 let bullets = [];
@@ -132,6 +146,14 @@ function animate() {
     enemies.push(new Enemy());
   }
 
+  bullets = bullets.filter((e) => !e.removable);
+
+  bullets.forEach((bullet) => {
+    bullet.update();
+    bullet.hit(enemies);
+    bullet.show();
+  });
+
   enemies = enemies.filter((e) => !e.removable);
 
   enemies.forEach((enemy) => {
@@ -139,19 +161,10 @@ function animate() {
     enemy.show();
   });
 
-  bullets = bullets.filter((e) => !e.removable);
-
-  bullets.forEach((bullet) => {
-    bullet.update();
-    bullet.show();
-  });
-
   hero.update();
   hero.show();
 
   requestAnimationFrame(animate);
-
-  console.log(bullets.length, enemies.length);
 }
 
 canvas.addEventListener("mousemove", (e) => {
