@@ -24,7 +24,6 @@ class Enemy {
     this.y += Math.sin((this.angle * Math.PI) / 180);
     this.frame = this.frame === 14 ? 0 : this.frame + 1;
   }
-
   show() {
     ctx.drawImage(
       this.image,
@@ -79,13 +78,22 @@ class Hero {
 }
 
 const hero = new Hero();
-const enemy = new Enemy();
+let enemies = [];
+let gameFrame = 0;
+let newEnemyFrequency = 120;
 
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  enemy.update();
-  enemy.show();
+  gameFrame = Math.floor((gameFrame + 1) % newEnemyFrequency);
+  if (gameFrame === 1) {
+    enemies.push(new Enemy());
+  }
+
+  enemies.forEach((enemy) => {
+    enemy.update();
+    enemy.show();
+  });
 
   hero.update();
   hero.show();
