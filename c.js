@@ -8,6 +8,9 @@ ctx.font = "bold 48px serif";
 
 class Enemy {
   constructor() {
+    this.image = new Image();
+    this.image.src = "./enemy.png";
+
     this.width = 250;
     this.height = 200;
     this.scale = Math.random() * 0.7 + 0.3;
@@ -18,6 +21,17 @@ class Enemy {
 
   show() {
     ctx.strokeRect(
+      this.x - 200,
+      this.y,
+      this.width * this.scale,
+      this.height * this.scale
+    );
+    ctx.drawImage(
+      this.image,
+      0,
+      0,
+      this.width,
+      this.height,
       this.x - 200,
       this.y,
       this.width * this.scale,
