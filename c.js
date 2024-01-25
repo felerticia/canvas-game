@@ -10,7 +10,7 @@ class Enemy {
   constructor() {
     this.image = new Image();
     this.image.src = "./enemy.png";
-
+    this.frame = 0;
     this.width = 250;
     this.height = 200;
     this.scale = Math.random() * 0.7 + 0.3;
@@ -18,7 +18,10 @@ class Enemy {
     this.x = canvas.width;
     this.y = Math.floor(Math.random() * (canvas.height - this.height));
   }
-
+  update() {
+    this.x -= 2;
+    this.frame = this.frame === 14 ? 0 : this.frame + 1;
+  }
   show() {
     ctx.strokeRect(
       this.x - 200,
@@ -77,6 +80,7 @@ const enemy = new Enemy();
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+  enemy.update();
   enemy.show();
 
   hero.update();
