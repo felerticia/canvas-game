@@ -6,6 +6,25 @@ canvas.height = window.innerHeight;
 const ctx = canvas.getContext("2d");
 ctx.font = "bold 48px serif";
 
+class Enemy {
+  constructor() {
+    this.width = 250;
+    this.height = 200;
+    this.scale = Math.random() * 0.7 + 0.3;
+
+    this.x = canvas.width;
+    this.y = Math.floor(Math.random() * (canvas.height - this.height));
+  }
+
+  show() {
+    ctx.strokeRect(
+      this.x - 200,
+      this.y,
+      this.width * this.scale,
+      this.height * this.scale
+    );
+  }
+}
 class Hero {
   constructor() {
     this.image = new Image();
@@ -16,7 +35,6 @@ class Hero {
     this.y = 100;
     this.frame = 0;
   }
-
   update() {
     this.frame = this.frame === 14 ? 0 : this.frame + 1;
   }
@@ -40,12 +58,16 @@ class Hero {
 }
 
 const hero = new Hero();
+const enemy = new Enemy();
 
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  hero.update();
 
+  enemy.show();
+
+  hero.update();
   hero.show();
+
   requestAnimationFrame(animate);
 }
 
