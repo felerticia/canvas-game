@@ -57,6 +57,12 @@ class Hero {
   update() {
     this.frame = this.frame === 14 ? 0 : this.frame + 1;
   }
+  getHeroLipPos() {
+    return {
+      x: this.x + this.width,
+      y: this.y + this.height * 0.5,
+    };
+  }
   move(y) {
     this.y = y - this.height * 0.5;
   }
@@ -76,9 +82,9 @@ class Hero {
   }
 }
 class Bullet {
-  constructor() {
-    this.x = 100;
-    this.y = 100;
+  constructor({ x, y }) {
+    this.x = x;
+    this.y = y;
     this.width = 100;
     this.height = 100;
     this.xSpeed = 7;
@@ -142,7 +148,7 @@ canvas.addEventListener("mousemove", (e) => {
   hero.move(e.clientY);
 });
 canvas.addEventListener("mouseup", () => {
-  bullets.push(new Bullet());
+  bullets.push(new Bullet(hero.getHeroLipPos()));
 });
 
 animate();
