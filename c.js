@@ -60,6 +60,19 @@ class Hero {
     this.frame = 0;
   }
   update() {
+    enemies.forEach((enemy) => {
+      if (
+        !(
+          enemy.x + enemy.width < this.x ||
+          enemy.x > this.x + this.width ||
+          enemy.y + enemy.height < this.y ||
+          enemy.y > this.y + this.height
+        )
+      ) {
+        gameOver = true;
+        return;
+      }
+    });
     this.frame = this.frame === 14 ? 0 : this.frame + 1;
   }
   getHeroLipPos() {
@@ -102,7 +115,7 @@ class Bullet {
     this.frameSizeX = 300;
     this.frameSizeY = 288;
   }
-  hit(enemies) {
+  hit() {
     enemies.forEach((enemy) => {
       if (
         !(
@@ -167,6 +180,7 @@ let bullets = [];
 let gameFrame = 0;
 let newEnemyFrequency = 120;
 let score = 0;
+let gameOver = false;
 
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -195,7 +209,7 @@ function animate() {
   hero.update();
   hero.show();
 
-  requestAnimationFrame(animate);
+  if (!gameOver) requestAnimationFrame(animate);
 }
 
 canvas.addEventListener("mousemove", (e) => {
