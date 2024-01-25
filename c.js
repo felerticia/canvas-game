@@ -99,7 +99,8 @@ class Bullet {
     this.removable = false;
     this.blasting = false;
     this.frame = 0;
-    this.frameSize = 300;
+    this.frameSizeX = 300;
+    this.frameSizeY = 288;
   }
   hit(enemies) {
     enemies.forEach((enemy) => {
@@ -144,14 +145,14 @@ class Bullet {
     } else {
       ctx.drawImage(
         this.image,
-        300 * this.frame,
+        this.frameSizeX * this.frame,
         0,
-        300,
-        288,
+        this.frameSizeX,
+        this.frameSizeY,
         this.x,
         this.y,
-        300,
-        288
+        this.frameSizeX,
+        this.frameSizeY
       );
       if (this.frame > 10) this.removable = true;
     }
