@@ -13,7 +13,7 @@ class Enemy {
     this.frame = 0;
     this.width = 250;
     this.height = 200;
-    this.angle = 0;
+    this.angle = Math.random() * 180;
     this.scale = Math.random() * 0.7 + 0.3;
     this.x = canvas.width;
     this.y = Math.floor(Math.random() * (canvas.height - this.height));
