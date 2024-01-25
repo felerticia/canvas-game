@@ -17,12 +17,14 @@ class Enemy {
     this.scale = Math.random() * 0.7 + 0.3;
     this.x = canvas.width;
     this.y = Math.floor(Math.random() * (canvas.height - this.height));
+    this.removable = false;
   }
   update() {
     this.x -= 2;
     this.angle = (this.angle + 3) % 360;
     this.y += Math.sin((this.angle * Math.PI) / 180);
     this.frame = this.frame === 14 ? 0 : this.frame + 1;
+    if (this.x + this.width * this.scale < 0) this.removable = true;
   }
   show() {
     ctx.drawImage(
@@ -130,6 +132,8 @@ function animate() {
     enemies.push(new Enemy());
   }
 
+  enemies = enemies.filter((e) => !e.removable);
+
   enemies.forEach((enemy) => {
     enemy.update();
     enemy.show();
@@ -147,7 +151,7 @@ function animate() {
 
   requestAnimationFrame(animate);
 
-  console.log(bullets.length);
+  console.log(bullets.length, enemies.length);
 }
 
 canvas.addEventListener("mousemove", (e) => {
