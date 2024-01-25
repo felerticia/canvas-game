@@ -97,6 +97,9 @@ class Bullet {
     this.image = new Image();
     this.image.src = "./bullet.png";
     this.removable = false;
+    this.blasting = false;
+    this.frame = 0;
+    this.frameSize = 300;
   }
   hit(enemies) {
     enemies.forEach((enemy) => {
@@ -108,29 +111,50 @@ class Bullet {
           enemy.y > this.y + this.height
         )
       ) {
+        this.blasting = true;
         enemy.remove();
+        return;
       }
     });
   }
   update() {
-    this.xSpeed *= 0.997;
-    this.ySpeed *= 1.01;
-    this.x += 10;
-    this.y += 0.5;
-    if (this.x > canvas.width) this.removable = true;
+    if (!this.blasting) {
+      this.xSpeed *= 0.997;
+      this.ySpeed *= 1.01;
+      this.x += 10;
+      this.y += 0.5;
+      if (this.x > canvas.width) this.removable = true;
+    } else {
+      this.frame++;
+    }
   }
   show() {
-    ctx.drawImage(
-      this.image,
-      100,
-      100,
-      this.width,
-      this.height,
-      this.x,
-      this.y,
-      this.width,
-      this.height
-    );
+    if (!this.blasting) {
+      ctx.drawImage(
+        this.image,
+        100,
+        100,
+        this.width,
+        this.height,
+        this.x,
+        this.y,
+        this.width,
+        this.height
+      );
+    } else {
+      ctx.drawImage(
+        this.image,
+        300 * this.frame,
+        0,
+        300,
+        288,
+        this.x,
+        this.y,
+        300,
+        288
+      );
+      if (this.frame > 10) this.removable = true;
+    }
   }
 }
 
