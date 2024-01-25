@@ -19,12 +19,15 @@ class Enemy {
     this.y = Math.floor(Math.random() * (canvas.height - this.height));
     this.removable = false;
   }
+  remove() {
+    this.removable = true;
+  }
   update() {
     this.x -= 2;
     this.angle = (this.angle + 3) % 360;
     this.y += Math.sin((this.angle * Math.PI) / 180);
     this.frame = this.frame === 14 ? 0 : this.frame + 1;
-    if (this.x + this.width * this.scale < 0) this.removable = true;
+    if (this.x + this.width * this.scale < 0) this.remove();
   }
   show() {
     ctx.drawImage(
@@ -105,7 +108,7 @@ class Bullet {
           enemy.y > this.y + this.height
         )
       ) {
-        console.log("Hit");
+        enemy.remove();
       }
     });
   }
