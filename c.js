@@ -13,33 +13,37 @@ class Enemy {
     this.frame = 0;
     this.width = 250;
     this.height = 200;
+    this.angle = 0;
     this.scale = Math.random() * 0.7 + 0.3;
-
     this.x = canvas.width;
     this.y = Math.floor(Math.random() * (canvas.height - this.height));
   }
   update() {
     this.x -= 2;
+    this.angle = (this.angle + 3) % 360;
+    this.y += Math.sin((this.angle * Math.PI) / 180);
     this.frame = this.frame === 14 ? 0 : this.frame + 1;
   }
+
   show() {
-    ctx.strokeRect(
-      this.x - 200,
-      this.y,
-      this.width * this.scale,
-      this.height * this.scale
-    );
     ctx.drawImage(
       this.image,
-      0,
+      this.frame * this.width,
       0,
       this.width,
       this.height,
-      this.x - 200,
+      this.x,
       this.y,
       this.width * this.scale,
       this.height * this.scale
     );
+    ctx.strokeRect(
+      this.x,
+      this.y,
+      this.width * this.scale,
+      this.height * this.scale
+    );
+    ctx.fillText(`${this.y}`, 500, 200);
   }
 }
 class Hero {
