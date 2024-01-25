@@ -20,7 +20,9 @@ class Hero {
   update() {
     this.frame = this.frame === 14 ? 0 : this.frame + 1;
   }
-
+  move(y) {
+    this.y = y - this.height * 0.5;
+  }
   show() {
     ctx.fillRect(this.x, this.y, this.width, this.height);
     ctx.drawImage(
@@ -46,5 +48,9 @@ function animate() {
   hero.show();
   requestAnimationFrame(animate);
 }
+
+canvas.addEventListener("mousemove", (e) => {
+  hero.move(e.clientY);
+});
 
 animate();
