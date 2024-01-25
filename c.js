@@ -42,7 +42,6 @@ class Enemy {
       this.width * this.scale,
       this.height * this.scale
     );
-    ctx.fillText(`${this.y}`, 500, 200);
   }
 }
 class Hero {
@@ -76,9 +75,42 @@ class Hero {
     );
   }
 }
+class Bullet {
+  constructor() {
+    this.x = 100;
+    this.y = 100;
+    this.width = 100;
+    this.height = 100;
+    this.xSpeed = 7;
+    this.ySpeed = 1;
+    this.image = new Image();
+    this.image.src = "./bullet.png";
+  }
 
+  update() {
+    this.xSpeed *= 0.997;
+    this.ySpeed *= 1.01;
+    this.x += 10;
+    this.y += 0.5;
+  }
+  show() {
+    ctx.drawImage(
+      this.image,
+      100,
+      100,
+      this.width,
+      this.height,
+      this.x,
+      this.y,
+      this.width,
+      this.height
+    );
+  }
+}
 const hero = new Hero();
 let enemies = [];
+let bullets = [];
+
 let gameFrame = 0;
 let newEnemyFrequency = 120;
 
@@ -95,6 +127,11 @@ function animate() {
     enemy.show();
   });
 
+  bullets.forEach((bullet) => {
+    bullet.update();
+    bullet.show();
+  });
+
   hero.update();
   hero.show();
 
@@ -103,6 +140,9 @@ function animate() {
 
 canvas.addEventListener("mousemove", (e) => {
   hero.move(e.clientY);
+});
+canvas.addEventListener("mouseup", () => {
+  bullets.push(new Bullet());
 });
 
 animate();
