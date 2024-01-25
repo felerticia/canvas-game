@@ -91,6 +91,7 @@ class Bullet {
     this.ySpeed = 1;
     this.image = new Image();
     this.image.src = "./bullet.png";
+    this.removable = false;
   }
 
   update() {
@@ -98,6 +99,7 @@ class Bullet {
     this.ySpeed *= 1.01;
     this.x += 10;
     this.y += 0.5;
+    if (this.x > canvas.width) this.removable = true;
   }
   show() {
     ctx.drawImage(
@@ -133,6 +135,8 @@ function animate() {
     enemy.show();
   });
 
+  bullets = bullets.filter((e) => !e.removable);
+
   bullets.forEach((bullet) => {
     bullet.update();
     bullet.show();
@@ -142,6 +146,8 @@ function animate() {
   hero.show();
 
   requestAnimationFrame(animate);
+
+  console.log(bullets.length);
 }
 
 canvas.addEventListener("mousemove", (e) => {
