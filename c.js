@@ -17,21 +17,12 @@ class Hero {
     this.frame = 0;
   }
 
+  update() {
+    this.frame = this.frame === 14 ? 0 : this.frame + 1;
+  }
+
   show() {
     ctx.fillRect(this.x, this.y, this.width, this.height);
-    //ctx.drawImage(this.image, this.x, this.y);
-    //ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-    // ctx.drawImage(
-    //   this.image,
-    //   0,
-    //   0,
-    //   this.width,
-    //   this.height,
-    //   this.x,
-    //   this.y,
-    //   this.width,
-    //   this.height
-    // );
     ctx.drawImage(
       this.image,
       this.frame * this.width,
@@ -50,6 +41,8 @@ const hero = new Hero();
 
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  hero.update();
+
   hero.show();
   requestAnimationFrame(animate);
 }
