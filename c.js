@@ -41,12 +41,6 @@ class Enemy {
       this.width * this.scale,
       this.height * this.scale
     );
-    ctx.strokeRect(
-      this.x,
-      this.y,
-      this.width * this.scale,
-      this.height * this.scale
-    );
   }
 }
 class Hero {
@@ -85,7 +79,6 @@ class Hero {
     this.y = y - this.height * 0.5;
   }
   show() {
-    ctx.fillRect(this.x, this.y, this.width, this.height);
     ctx.drawImage(
       this.image,
       this.frame * this.width,
@@ -210,6 +203,25 @@ function animate() {
   hero.show();
 
   if (!gameOver) requestAnimationFrame(animate);
+  else {
+    ctx.textAlign = "center";
+    ctx.fillStyle = "white";
+    ctx.clearRect(
+      canvas.width / 4,
+      canvas.height / 10,
+      canvas.width / 2,
+      canvas.height / 5
+    );
+    ctx.fillStyle = "black";
+    ctx.strokeRect(
+      canvas.width / 4,
+      canvas.height / 10,
+      canvas.width / 2,
+      canvas.height / 5
+    );
+    ctx.fillText("Game Over", canvas.width / 2, 50 + canvas.height / 7);
+    ctx.fillText("Score: " + score, canvas.width / 2, 150 + canvas.height / 7);
+  }
 }
 
 canvas.addEventListener("mousemove", (e) => {
