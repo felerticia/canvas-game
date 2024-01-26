@@ -6,6 +6,23 @@ canvas.height = window.innerHeight;
 const ctx = canvas.getContext("2d");
 ctx.font = "bold 48px serif";
 
+class BG {
+  constructor() {
+    this.x = 0;
+    this.y = 0;
+    this.image = new Image();
+    this.width = 2123;
+    this.image.src = "./sky.jpg";
+  }
+  update() {
+    if (this.x < -2140) this.x = 0;
+    else this.x -= 3;
+  }
+  show() {
+    ctx.drawImage(this.image, this.x, 0);
+  }
+}
+
 class Enemy {
   constructor() {
     this.image = new Image();
@@ -167,6 +184,8 @@ class Bullet {
 }
 
 const hero = new Hero();
+const bg = new BG();
+
 let enemies = [];
 let bullets = [];
 
@@ -177,6 +196,10 @@ let gameOver = false;
 
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  bg.update();
+  bg.show();
+  
   ctx.fillText(score, 100, 100);
 
   gameFrame = Math.floor((gameFrame + 1) % newEnemyFrequency);
